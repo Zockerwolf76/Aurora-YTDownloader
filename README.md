@@ -2,8 +2,8 @@
 
 ## Run on Android (Termux)
 
-1. install python ```pkg install python``` 
-2. install pytube ```pip install pytube```
+1. install python: ```pkg install python``` 
+2. install pytube: ```pip install pytube```
 3. clone this repo: ```git clone https://github.com/Zockerwolf76/Aurora-YTDownloader```
 
 
