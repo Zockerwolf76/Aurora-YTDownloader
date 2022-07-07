@@ -5,7 +5,7 @@ import os.path
 from pathlib import Path
 
 
-print('''Welcome to Aurora YouTube Downloader and Converter v0.2 Alpha \n''')
+print('''Welcome to Aurora YouTube Downloader V.1.1 \n''')
 print('''Loading...\n''')
 time.sleep(5)
 
@@ -28,21 +28,50 @@ choice = input("Choice: ")
 
 if choice == "1":
     time.sleep(3)
-    print("\n" + "Please wait while getting Video Streams...\n")
-    time.sleep(3)
-    path = input("Download location: ")
-    pathv = Path(path)
-    if os.path.exists(pathv):
+    print("\n" + "Please choose download mode: \n")
+    print("(1) Audio & Video \n" + "(2) Audio only \n" + "(3) exit \n")
+    mode = input("Choice: ")
+    if mode == "1":
+        print("\n" + "Please wait while getting Video Streams for Audio & Video...\n")
         time.sleep(3)
-        print("\n" + "Try to get Download... \n")
-        ys = yt.streams.get_highest_resolution()
+        path = input("Download location: ")
+        pathv = Path(path)
+        if os.path.exists(pathv):
+            time.sleep(3)
+            print("\n" + "Try to get Download... \n")
+            ys = yt.streams.get_highest_resolution()
+            time.sleep(3)
+            print(f"Downloading {yt.title}... \n")
+            ys.download(path)
+            print("\n"+ "\n" + f"Done! Your Video is located under {path} \n")
+        else:
+            print("\n" + "Invalid path. \n")
+            exit()
+
+    elif mode == "2":
+        print("\n" + "Please wait while getting Video Streams for Audio only...\n")
         time.sleep(3)
-        print(f"Downloading {yt.title}... \n")
-        ys.download(path)
-        print("\n"+ "\n" + f"Done! Your Video is located under {path} \n")
-    else:
-        print("\n" + "Invalid path. \n")
+        path = input("Download location: ")
+        pathv = Path(path)
+        if os.path.exists(pathv):
+            time.sleep(3)
+            print("\n" + "Try to get Download... \n")
+            ys = yt.streams.filter(only_audio=True).first()
+            time.sleep(3)
+            print(f"Downloading {yt.title}... \n")
+            ys.download(path)
+            print("\n"+ "\n" + f"Done! Your Audio is located under {path} \n")
+        else:
+            print("\n" + "Invalid path. \n")
+            exit()
+
+    elif mode == "3":
+        print("\n" + "Ok maybe later. \n")
         exit()
+    
+    else:
+     print("\n" + "invalid input! \n")
+    exit()   
 
 elif choice == "2":
     print("\n" + "Ok maybe later. \n")
