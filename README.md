@@ -1,7 +1,12 @@
 # Aurora-YTDownloader
 
-## Run
-[![Run on Repl.it](https://repl.it/badge/github/zockerwolf76/aurora-ytdownloader)](https://repl.it/github/zockerwolf76/Aurora-YTDownloader)
+## Run on Android (Termux)
+
+1. enter ''' pkg install python '''
+2. install pytube ('''pkg install pytube''')
+3. clone this repo: '''hi'''
+
+
 
 ## Changelog V. 1.1:
 
