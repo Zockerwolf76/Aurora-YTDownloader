@@ -5,6 +5,8 @@
 1. install python: ```pkg install python``` 
 2. install pytube: ```pip install pytube```
 3. clone this repo: ```git clone https://github.com/Zockerwolf76/Aurora-YTDownloader```
+4. enter: ```cd Aurora-YTDownloader```
+5. run script: ```python downloader.py```
 
 
 
