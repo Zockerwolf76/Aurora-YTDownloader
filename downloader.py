@@ -1,4 +1,4 @@
-from pytube import YouTube
+from pytube import YouTube as Yt
 import time
 from pytubemp3 import YouTube 
 from pytube.cli import on_progress
@@ -11,7 +11,7 @@ print('''Loading...\n''')
 time.sleep(5)
 
 link = input("Enter the youtube link: \u001b[31m")
-yt = YouTube(link, on_progress_callback=on_progress)
+yt = Yt(link, on_progress_callback=on_progress)
 
 time.sleep(3)
 print("\u001b[0m" + "\n" + "Get Video pls wait...\n")
