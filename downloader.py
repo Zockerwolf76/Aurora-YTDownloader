@@ -4,6 +4,7 @@ from pytubemp3 import YouTube
 from pytube.cli import on_progress
 import os.path
 from pathlib import Path
+from moviepy.editor import *
 
 
 print('''Welcome to Aurora YouTube Downloader V.1.1 \n''')
@@ -60,7 +61,10 @@ if choice == "1":
             ys = yt.streams.filter(only_audio=True).first()
             time.sleep(3)
             print(f"Downloading {yt.title}... \n")
-            ys.download(path)
+            videof = ys.download(path)
+            videot =VideoFileClip(videof)
+            video.audio.write_audiofile("{yt.title}.mp3")
+
             print("\n"+ "\n" + f"Done! Your Audio is located under {path} \n")
         else:
             print("\n" + "Invalid path. \n")
