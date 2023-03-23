@@ -1,87 +1,91 @@
 from pytube import YouTube as Yt
-import time
-from pytubemp3 import YouTube 
 from pytube.cli import on_progress
-import os.path
 from pathlib import Path
 from moviepy.editor import *
+import os.path
+import time
+from termcolor import colored
 
+def print_header():
+    print(colored('Welcome to Aurora YouTube Downloader V.1.1\n', 'green'))
 
-print('''Welcome to Aurora YouTube Downloader V.1.1 \n''')
-print('''Loading...\n''')
-time.sleep(5)
+def get_youtube_link():
+    return input(colored("Enter the YouTube link: ", 'red'))
 
-link = input("Enter the youtube link: \u001b[31m")
-yt = Yt(link, on_progress_callback=on_progress)
+def get_youtube_video(link):
+    yt = Yt(link, on_progress_callback=on_progress)
+    return yt
 
-time.sleep(3)
-print("\u001b[0m" + "\n" + "Get Video pls wait...\n")
-time.sleep(5)
+def print_video_info(yt):
+    print(f"Title: {colored(yt.title, 'green')}")
+    print(f"Number of views: {colored(yt.views, 'blue')}")
+    print(f"Length of video: {colored(yt.length, 'magenta')} seconds\n")
 
-print("Title: ",f"\u001b[32m {yt.title}","\u001b[0m")
-print("Number of views: ",f"\u001b[34m {yt.views}", "\u001b[0m")
-print("Length of video: ",f"\u001b[35m {yt.length}","seconds", "\u001b[0m" + "\n")
-time.sleep(3)
+def get_download_choice():
+    print("Do you want to download the video?")
+    choice = input(colored("(1) Yes!\n(2) No!\n", 'yellow'))
+    return choice
 
-print("Do u want to download it? Please choose: \n")
-print("(1) Yes! \n" + "(2) No! \n")
+def get_download_mode():
+    print("Please choose a download mode:")
+    mode = input(colored("(1) Audio & Video\n(2) Audio only\n(3) Exit\n", 'yellow'))
+    return mode
 
-choice = input("Choice: ")
-
-if choice == "1":
-    time.sleep(3)
-    print("\n" + "Please choose download mode: \n")
-    print("(1) Audio & Video \n" + "(2) Audio only \n" + "(3) exit \n")
-    mode = input("Choice: ")
-    if mode == "1":
-        print("\n" + "Please wait while getting Video Streams for Audio & Video...\n")
-        time.sleep(3)
-        path = input("Download location: ")
-        pathv = Path(path)
-        if os.path.exists(pathv):
-            time.sleep(3)
-            print("\n" + "Try to get Download... \n")
-            ys = yt.streams.get_highest_resolution()
-            time.sleep(3)
-            print(f"Downloading {yt.title}... \n")
-            ys.download(path)
-            print("\n"+ "\n" + f"Done! Your Video is located under {path} \n")
-        else:
-            print("\n" + "Invalid path. \n")
-            exit()
-
-    elif mode == "2":
-        print("\n" + "Please wait while getting Video Streams for Audio only...\n")
-        time.sleep(3)
-        path = input("Download location: ")
-        pathv = Path(path)
-        if os.path.exists(pathv):
-            time.sleep(3)
-            print("\n" + "Try to get Download... \n")
-            ys = yt.streams.filter(only_audio=True).first()
-            time.sleep(3)
-            print(f"Downloading {yt.title}... \n")
-            videof = ys.download(path)
-            videot =VideoFileClip(videof)
-            video.audio.write_audiofile("{yt.title}.mp3")
-
-            print("\n"+ "\n" + f"Done! Your Audio is located under {path} \n")
-        else:
-            print("\n" + "Invalid path. \n")
-            exit()
-
-    elif mode == "3":
-        print("\n" + "Ok maybe later. \n")
-        exit()
-    
+def get_download_path():
+    path = input(colored("Enter download location: ", 'red'))
+    pathv = Path(path)
+    if os.path.exists(pathv):
+        return path
     else:
-     print("\n" + "invalid input! \n")
-    exit()   
+        print(colored("Invalid path!", 'red'))
+        exit()
 
-elif choice == "2":
-    print("\n" + "Ok maybe later. \n")
-    exit()
+def download_video(yt, path):
+    print("Please wait while getting Video Streams for Audio & Video...")
+    time.sleep(3)
+    print(colored(f"Downloading {yt.title}...\n", 'green'))
+    ys = yt.streams.get_highest_resolution()
+    ys.download(path)
+    print(colored(f"\nDone! Your Video is located under {path}\n", 'green'))
 
-else:
-    print("\n" + "invalid input! \n")
-    exit()
+def download_audio(yt, path):
+    print("Please wait while getting Video Streams for Audio only...")
+    time.sleep(3)
+    print(colored(f"Downloading {yt.title}...\n", 'green'))
+    ys = yt.streams.get_lowest_resolution()
+    videof = ys.download(path)
+    videot = VideoFileClip(videof)
+    videot.audio.write_audiofile(f"{path}/{yt.title}.mp3")
+    os.remove(videof)
+    print(colored(f"\nDone! Your Audio is located under {path}\n", 'green'))
+
+def handle_download_choice(choice, yt):
+    if choice == "1":
+        mode = get_download_mode()
+        if mode == "1":
+            path = get_download_path()
+            download_video(yt, path)
+        elif mode == "2":
+            path = get_download_path()
+            download_audio(yt, path)
+        elif mode == "3":
+            print(colored("Ok maybe later.\n", 'yellow'))
+            exit()
+        else:
+            print(colored("Invalid input!", 'red'))
+            exit()
+    elif choice == "2":
+        print(colored("Ok maybe later.\n", 'yellow'))
+        exit()
+    else:
+        print(colored("Invalid input!", 'red'))
+        exit()
+
+if __name__ == '__main__':
+    print_header()
+    link = get_youtube_link()
+    yt = get_youtube_video(link)
+    print_video_info(yt)
+    choice = get_download_choice()
+    handle_download_choice(choice, yt)
+    
