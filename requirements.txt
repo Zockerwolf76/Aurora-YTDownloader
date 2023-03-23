@@ -2,3 +2,4 @@ pytube
 typing_extensions
 pytubemp3
 moviepy
+termcolor
